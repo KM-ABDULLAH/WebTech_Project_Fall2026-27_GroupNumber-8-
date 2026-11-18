@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard – ParcelPaiso?</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .menu { display: flex; gap: 10px; padding: 16px 20px 0 20px; flex-wrap: wrap; }
+    .menu a { display: inline-block; margin: 0 auto; padding: 10px 18px; border-radius: 10px; background: var(--green-dark); color: white; cursor: pointer; text-decoration: none; }
+    .menu a:hover, .menu a:focus { background: var(--amber); outline: none; }
+    .logout { display: inline-block; padding: 10px 18px; border-radius: 10px; background: var(--green-dark); color: white !important; cursor: pointer; text-decoration: none; }
+    .logout:hover, .logout:focus { background: var(--amber); outline: none; }
+
+    .content { padding: 20px; }
+    .page { display: none; }
+    .page.show { display: block; }
+    table { width: 100%; border-collapse: collapse; border: 1px solid var(--amber); }
+    th, td { text-align: left; padding: 8px; border: 1px solid var(--amber); }
+    #successMsg { display: none; background: #d9f2d9; padding: 10px; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="logo" href="../../index.html"><img src="../Image/logo.png" alt="Parcel Paiso?"></a>
+    <div class="nav-links">
+      <span style="background-color:#DC143C; color: white;">Mayer Doya Company</span> <span>|</span>
+      <a class="logout" href="../../index.html">Log out</a>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <div class="menu">
+      <a tabindex="0" onclick="showPage('overview')">Overview</a>
+      <a tabindex="0" onclick="showPage('request')">Request a rider</a>
+      <a tabindex="0" onclick="showPage('ongoing')">Ongoing orders</a>
+      <a tabindex="0" onclick="showPage('history')">Order history</a>
+      <h1><strong>Welcome to our <span style="color:white; background-color: #DC143C;">"Mayer Doya Company"</span> Buddy..!!</strong></h1>
+    </div>
+
+    <div class="content">
+
+      <div class="page show" id="overview">
+        <p><strong>Ongoing orders:</strong>  <strong style="color: #DC143C;" id="statOngoing">0</strong></p>
+        <p><strong>Delivered: </strong><strong style="color: #DC143C;" id="statDelivered">0</strong></p>
+        <p><strong>Waiting for a rider: </strong><strong style="color: #DC143C;" id="statPending">0</strong></p>
+        <h2>Recent orders</h2>
+        <div id="recentTable"></div>
+      </div>
+
+      <div class="page" id="request">
+        <h1>Request a rider</h1>
+        <div id="successMsg"></div>
+        <form id="requestForm" class="card">
+          <div class="form-group">
+            <label for="rName">Receiver name</label>
+            <input id="rName" required palceholder="Pasa Bhai">
+          </div>
+          <div class="form-group">
+            <label for="rPhone">Receiver phone</label>
+            <input id="rPhone" type="tel" required pattern="01[0-9]{9}" placeholder="01XXXXXXXXX">
+          </div>
+          <div class="form-group">
+            <label for="rAddress">Delivery address</label>
+            <textarea id="rAddress" rows="2" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="item">What is inside?</label>
+            <input id="item" required placeholder="e.g. 2 Boxer">
+          </div>
+          <div class="form-group">
+            <label for="weight">Weight (kg)</label>
+            <input id="weight" type="number" min="1" value="1" required>
+          </div>
+          <div class="form-group">
+            <label for="service">Service</label>
+            <select id="service">
+              <option value="60">Standard (60 ৳)</option>
+              <option value="120">Express (120 ৳)</option>
+              <option value="180">Same day (180 ৳)</option>
+            </select>
+          </div>
+          <p>Delivery charge: <strong id="price">৳ 60</strong></p>
+          <button class="btn btn-full" type="submit">Request rider</button>
+        </form>
+      </div>
+
+      <div class="page" id="ongoing">
+        <h1>Ongoing orders</h1>
+        <div id="ongoingTable"></div>
+      </div>
+
+      <div class="page" id="history">
+        <h1>Order history</h1>
+        <input id="search" type="search" placeholder="Search by order ID or receiver">
+        <br><br>
+        <div id="historyTable"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    var orders = [
+      { id: "PN-104", receiver: "Harry Porter", item: "Joss-Fit Boxer", date: "2026-11-16", status: "On the way", price: 80 },
+      { id: "PN-103", receiver: "Ranbir Kapoor", item: "Animal-Edition Boxer", date: "2026-11-15", status: "Picked up", price: 160 },
+      { id: "PN-102", receiver: "Peter Parker", item: "Vegitable-Edition Boxer", date: "2026-11-14", status: "Pending", price: 80 },
+      { id: "PN-101", receiver: "Sundar Pichai", item: "Fruit-Edition ", date: "2026-11-09", status: "Delivered", price: 140 },
+      { id: "PN-100", receiver: "Jensen Huang", item: "Open-Air Boxer", date: "2026-10-28", status: "Cancelled", price: 100 }
+    ];
+
+    function showPage(name) {
+      var pages = document.querySelectorAll(".page");
+      for (var i = 0; i < pages.length; i++) {
+        pages[i].classList.remove("show");
+      }
+      document.getElementById(name).classList.add("show");
+    }
+
+    function makeTable(list) {
+      if (list.length === 0) {
+        return "<p>No orders found.</p>";
+      }
+      var html = "<table><tr><th>ID</th><th>Receiver</th><th>Parcel</th><th>Date</th><th>Charge</th><th>Status</th></tr>";
+      for (var i = 0; i < list.length; i++) {
+        var o = list[i];
+        html += "<tr><td>" + o.id + "</td><td>" + o.receiver + "</td><td>" + o.item +
+                "</td><td>" + o.date + "</td><td>৳ " + o.price + "</td><td>" + o.status + "</td></tr>";
+      }
+      html += "</table>";
+      return html;
+    }
+
+    function getOngoing() {
+      var result = [];
+      for (var i = 0; i < orders.length; i++) {
+        if (orders[i].status !== "Delivered" && orders[i].status !== "Cancelled") {
+          result.push(orders[i]);
+        }
+      }
+      return result;
+    }
+
+    function countStatus(status) {
+      var count = 0;
+      for (var i = 0; i < orders.length; i++) {
+        if (orders[i].status === status) {
+          count++;
+        }
+      }
+      return count;
+    }
+
+    function showHistory() {
+      var text = document.getElementById("search").value.toLowerCase();
+      var result = [];
+      for (var i = 0; i < orders.length; i++) {
+        var o = orders[i];
+        if ((o.id + " " + o.receiver).toLowerCase().includes(text)) {
+          result.push(o);
+        }
+      }
+      document.getElementById("historyTable").innerHTML = makeTable(result);
+    }
+
+    function render() {
+      document.getElementById("statOngoing").textContent = getOngoing().length;
+      document.getElementById("statDelivered").textContent = countStatus("Delivered");
+      document.getElementById("statPending").textContent = countStatus("Pending");
+      document.getElementById("recentTable").innerHTML = makeTable(orders.slice(0, 3));
+      document.getElementById("ongoingTable").innerHTML = makeTable(getOngoing());
+      showHistory();
+    }
+
+    
+    function updatePrice() {
+      var base = Number(document.getElementById("service").value);
+      var kg = Number(document.getElementById("weight").value);
+      var total = base + (kg - 1) * 20;
+      document.getElementById("price").textContent = "৳ " + total;
+      return total;
+    }
+
+    document.getElementById("search").addEventListener("input", showHistory);
+    document.getElementById("service").addEventListener("change", updatePrice);
+    document.getElementById("weight").addEventListener("input", updatePrice);
+
+   
+    document.getElementById("requestForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      var newId = "PN-" + (100 + orders.length);
+      var newOrder = {
+        id: newId,
+        receiver: document.getElementById("rName").value,
+        item: document.getElementById("item").value,
+        date: new Date().toISOString().slice(0, 10),
+        status: "Pending",
+        price: updatePrice()
+      };
+      orders.unshift(newOrder); 
+
+      render();
+
+      var msg = document.getElementById("successMsg");
+      msg.textContent = "Request sent! Order " + newId + " is waiting for a rider.";
+      msg.style.display = "block";
+      this.reset();
+      updatePrice();
+    });
+
+    render();
+  </script>
+</body>
+</html>

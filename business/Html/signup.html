@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customer sign up – ParcelPaiso?</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .wrap { max-width: 640px; margin: 32px auto; padding: 0 16px; }
+    .wrap h1 { font-size: 1.5rem; margin-bottom: 4px; }
+    .sub { color: var(--muted); margin-bottom: 20px; }
+    h2 { font-size: 1.05rem; margin: 20px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+    .check { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 16px; }
+    .check input { width: auto; margin-top: 5px; }
+    .check label { font-weight: 400; margin: 0; }
+    .switch { text-align: center; margin-top: 16px; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="logo" href="../../index.html"><img src="../Image/logo.png" alt="Parcel Paiso?"></a>
+    <div class="nav-links"><a href="business.html?mode=login">Log in</a></div>
+  </nav>
+
+  <main class="wrap">
+    <div class="card">
+      <h1>Create your customer account</h1>
+      <p class="sub">Tell us about you and your damn business.</p>
+
+      <form id="signupForm">
+        <h2>Business details</h2>
+        <div class="form-group">
+          <label for="business">Business name</label>
+          <input id="business" required placeholder="Allah Vorosha Company">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="type">Business type</label>
+            <select id="type" required>
+              <option value="">Select type</option>
+              <option>Online shop</option>
+              <option>Retail store</option>
+              <option>Wholesaler</option>
+              <option>Restaurant / food</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="city">City</label>
+            <input id="city" required placeholder="Kashimpur">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="address">Pickup address</label>
+          <textarea id="address" rows="2" required placeholder="House, road, area"></textarea>
+        </div>
+
+        <h2>Contact Details</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full name</label>
+            <input id="name" required placeholder="Pasa Bhai">
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input id="phone" type="tel" required pattern="01[0-9]{9}" placeholder="01XXXXXXXXX" title="11 digits, starting with 01">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" required placeholder="allahvhorosha@business.com">
+        </div>
+
+        <h2>Password</h2>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pass">Password</label>
+            <input id="pass" type="password" required minlength="6">
+          </div>
+          <div class="form-group">
+            <label for="pass2">Confirm password</label>
+            <input id="pass2" type="password" required>
+          </div>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" id="terms" required>
+          <label for="terms">I agree to all the terms and conditions.</label>
+        </div>
+
+        <p class="error" id="formError"></p>
+        <button class="btn btn-full" type="submit">Create account</button>
+      </form>
+      <p class="switch">Already have an account? <a href="business.html?mode=login">Log in</a></p>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const err = document.getElementById("formError");
+      if (document.getElementById("pass").value !== document.getElementById("pass2").value) {
+        err.textContent = "Passwords missmatched. Use the same password.";
+        err.style.display = "block";
+        return;
+      }
+      alert("Account created! Please log in.");
+      window.location.href = "business.html?mode=login";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Business – ParcelPaiso?</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .wrap { max-width: 420px; margin: 40px auto; padding: 0 16px; }
+    .wrap h1 { font-size: 1.5rem; margin-bottom: 4px; }
+    .sub { color: var(--muted); margin-bottom: 20px; }
+    .switch { text-align: center; margin-top: 16px; font-size: 0.95rem; }
+    .perks { margin: 0 0 20px 20px; color: var(--text); }
+    .perks li { margin-bottom: 6px; }
+    .hidden { display: none; }
+    .error { color: red;}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="logo" href="../../index.html"><img src="../Image/logo.png" alt="Parcel Paiso?"></a>
+    <div class="nav-links"><a href="../../index.html">&larr; Home</a></div>
+  </nav>
+
+  <main class="wrap">
+    <!-- LOGIN: shown when the URL has ?mode=login -->
+    <section class="card hidden" id="loginBox">
+      <h1>Business login</h1>
+      <p class="sub"><strong>Welcome back Buddy..!!</strong><br>Log in and manage your deliveries.<br><strong>Hurry up..</strong>Customers are going <strong>crazy...!!</strong></p>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" id="email" required placeholder="SantirChele@business.com">
+        </div>
+        <span class="error" id="mailErr"></span>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required placeholder="ami_j_shudhu_tomar">
+        </div>
+        <span class="error" id="passErr"></span>
+        <button class="btn btn-full" type="submit">Log in</button>
+      </form>
+      <p class="switch"><a href="forgot-password.html" onclick="alert('Forgot password page is part of the public pages.'); return false;">Forgot password?</a></p>
+      <p class="switch">New here? <a href="business.html?mode=signup">Create a customer account</a></p>
+    </section>
+
+    <!-- SIGN UP: shown when the URL has ?mode=signup -->
+    <section class="card hidden" id="signupBox">
+      <h1>Sign up as a Business</h1>
+      <p class="sub">Create a business account in about two minutes.</p>
+      <ul class="perks">
+        <li>Request a rider to pick up your products</li>
+        <li>Track every order until it is delivered</li>
+        <li>See your full order history</li>
+      </ul>
+      <a class="btn btn-full" href="signup.html">Continue to sign up form</a>
+      <p class="switch">Already have an account? <a href="business.html?mode=login">Log in</a></p>
+    </section>
+  </main>
+
+  <script>
+    const mode = new URLSearchParams(window.location.search).get("mode");
+    const showSignup = (mode === "signup");
+    document.getElementById("signupBox").classList.toggle("hidden", !showSignup);
+    document.getElementById("loginBox").classList.toggle("hidden", showSignup);
+
+    document.getElementById("loginForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      const pass = document.getElementById("password").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const mailErr = document.getElementById("mailErr");
+      const passErr = document.getElementById("passErr");
+      if (pass.length < 6) {
+        passErr.textContent = "Password must be at least 6 characters";
+        passErr.style.display = "block";
+        return;
+      }
+
+	if (email === "" || !email.includes("@") || !email.includes(".")) {
+	 	 mailErr.textContent = "Enter a valid email address";
+ 	 	 mailErr.style.display = "block";
+ 	 	 return;
+	}
+      window.location.href = "dashboard.html";
+    });
+  </script>
+</body>
+</html>

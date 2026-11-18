@@ -1,0 +1,55 @@
+:root {
+  --green: #14213d;
+  --green-dark: #0b1426;
+  --amber: #e63946;
+  --bg: #f5f1e8;
+  --text: #14213d;
+  --muted: #6b7a99;
+  --border: #e2dccf;
+  --white: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Times New Roman, Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+a { color: var(--green); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+/* Navbar */
+.navbar { background: var(--white); color: var(--text); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; }
+.logo img { height: 44px; display: block; }
+.nav-links { display: flex; gap: 18px; align-items: center; }
+.nav-links a { color: var(--text); }
+
+/* Buttons */
+.btn { display: inline-block; padding: 10px 20px; border-radius: 6px; border: 2px solid var(--green); background: var(--green); color: var(--white); font-size: 1rem; font-weight: 600; cursor: pointer; text-align: center; }
+.btn:hover { background: var(--green-dark); text-decoration: none; }
+.btn-outline { background: transparent; color: var(--green); }
+.btn-outline:hover { background: var(--green); color: var(--white); }
+.btn-amber { background: var(--amber); border-color: var(--amber); color: var(--white); }
+.btn-amber:hover { background: #c92a37; }
+.btn-full { width: 100%; }
+
+/* Form */
+.form-group { margin-bottom: 16px; }
+label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.95rem; }
+input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; font-family: inherit; background: var(--white); }
+input:focus, select:focus, textarea:focus { border-color: var(--green); outline: none; box-shadow: 0 0 0 3px rgba(15,92,77,0.15); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.error { color: #b3261e; font-size: 0.9rem; margin-bottom: 10px; display: none; }
+
+/* Cards */
+.card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+
+/* Status badges (same colours everywhere) */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+.badge.pending { background: #fff1cc; color: #7a5600; }
+.badge.assigned { background: #dbe9ff; color: #1b4a96; }
+.badge.picked { background: #e6dcff; color: #4b2a9c; }
+.badge.ontheway { background: #d6f3ee; color: #0b6354; }
+.badge.delivered { background: #d9f2d9; color: #1d6a1d; }
+.badge.cancelled { background: #fbdcdc; color: #9b1c1c; }
+
+@media (max-width: 640px) {
+  .form-row { grid-template-columns: 1fr; }
+  .navbar { padding: 12px 16px; }
+}
