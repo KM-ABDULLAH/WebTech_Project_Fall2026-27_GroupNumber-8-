@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Login</title>
+    <link rel="stylesheet" href="../Design/style.css">
+</head> 
+
+<body>
+     <img src="../Image/logo.png" id="logo" alt="ParcelPaiso logo">
+
+    <div class = "header">
+        <h1>Customer Login</h1>
+        <p>Welcome Back! Login to track and book your orders.</p>
+    </div>
+    <div class ="topnav">
+        <a href="login.html"class="active">Login</a>
+        <a href="registration.html">Registration</a>
+        <a href="userDashboard.html">Dashboard</a>
+    </div>
+    <div class = "login-card">
+        <h2>Login</h2>
+        <form id="loginForm"novalidate>
+            <div class="field">
+                    <label for="username">Username:</label>
+                    <span class="error" id="LoginUserError"></span>
+                    <input type= "text" id="username" name="username"placeholder="Enter your username"required>
+            </div>
+            <div class="field">
+
+                    <label for="password">Password:</label>
+                    <span class="error" id="LoginPassError"></span>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" minlength="8" required>
+            </div> 
+                    
+        
+            <p>
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember me</label>
+            </p>
+
+    
+            <button type = "submit" class="btn">Login</button>
+            <p> New customer? <a href="registration.html">Create an account</a></p>
+
+
+                       
+        </form>
+    </div>
+        <div class="footer">
+        <h5>Created by Sumaita Tasnim</h5>
+        
+    </div>
+    <script src="../JS/script.js"></script>
+</body>
+</html>
+    
