@@ -14,15 +14,13 @@ document.addEventListener("DOMContentLoaded",function()
     const loginForm=document.getElementById("loginForm");
     if(loginForm){
         loginForm.addEventListener("submit",function(event){
-            if(!collect_login_data()){
                 event.preventDefault();
-            }
-            else {
-                event.preventDefault();
-                window.location.href="userDashboard.html";
-            }
-        })
-    }
+                if(collect_login_data()){
+                    window.location.href="customerDashboard.html"
+                }
+            })
+        }
+         
 
 
 
@@ -32,7 +30,7 @@ if (registerForm) {
         event.preventDefault();
 
         if (collect_register_data()) {
-            window.location.href = "userDashboard.html";
+            window.location.href = "customerDashboard.html";
         }
     });
 }
